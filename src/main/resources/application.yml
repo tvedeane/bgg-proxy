@@ -1,0 +1,5 @@
+---
+micronaut:
+  server:
+    cors:
+      enabled: true
