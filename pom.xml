@@ -22,7 +22,7 @@
         <micronaut.runtime>netty</micronaut.runtime>
         <micronaut.aot.enabled>false</micronaut.aot.enabled>
         <micronaut.aot.packageName>example.micronaut.aot.generated</micronaut.aot.packageName>
-        <exec.mainClass>example.micronaut.Application</exec.mainClass>
+        <exec.mainClass>dev.tvedeane.Application</exec.mainClass>
     </properties>
 
     <repositories>
@@ -130,6 +130,18 @@
                         <arg>-Amicronaut.processing.group=example.micronaut</arg>
                         <arg>-Amicronaut.processing.module=default</arg>
                     </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>dev.tvedeane.Application</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
