@@ -5,12 +5,12 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.client.BlockingHttpClient;
 import io.micronaut.http.client.HttpClient;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,7 +38,8 @@ class BoardgamegeekClientTest {
                     </item>
                   </items>
                 """.getBytes(StandardCharsets.UTF_8));
-        when(blockingClient.exchange(any(HttpRequest.class), any(Class.class))).thenReturn(response);
+        when(blockingClient.exchange(ArgumentMatchers.<HttpRequest<?>>any(), ArgumentMatchers.<Class<byte[]>>any()))
+                .thenReturn(response);
 
         var result = client.fetchGame(List.of("1", "2"));
 
