@@ -21,12 +21,16 @@ class BoardgameControllerTest {
         var result1 = getBlockingFrom(controller.playersCountsStream("4,10"));
         var result2 = getBlockingFrom(controller.playersCountsStream("4,10"));
 
-        assertThat(result1).containsOnly(e1, e2);
-        assertThat(result2).containsOnly(e1, e2);
+        String[] results = {
+            "{\"id\":\"4\",\"bestWith\":[2],\"recommendedWith\":[2]}\n",
+            "{\"id\":\"10\",\"bestWith\":[2],\"recommendedWith\":[2]}\n"
+        };
+        assertThat(result1).containsOnly(results);
+        assertThat(result2).containsOnly(results);
         verify(mockClient, times(1)).fetchGame(List.of("4", "10"));
     }
 
-    private static List<PlayersCountDto> getBlockingFrom(Publisher<PlayersCountDto> publisher) {
+    private static List<String> getBlockingFrom(Publisher<String> publisher) {
         return Flowable.fromPublisher(publisher)
             .toList()
             .blockingGet();

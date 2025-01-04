@@ -33,7 +33,7 @@ public class BoardgameController {
     }
 
     @Get(value = "/stream/{ids}", produces = MediaType.APPLICATION_JSON_STREAM)
-    public Publisher<PlayersCountDto> playersCountsStream(String ids) {
+    public Publisher<String> playersCountsStream(String ids) {
         var separatedIds = Arrays.stream(ids.split(",")).toList();
         var cached = new ArrayList<PlayersCountDto>();
         var missingKeys = new ArrayList<String>();
@@ -49,7 +49,7 @@ public class BoardgameController {
 
         Flowable<PlayersCountDto> cachedFlow = Flowable.fromIterable(cached);
         if (missingKeys.isEmpty()) {
-            return cachedFlow;
+            return cachedFlow.map(BoardgameController::addNewline);
         }
 
         List<List<String>> partitions = Lists.partition(missingKeys, BoardgamegeekClient.MAX_READING_THINGS);
@@ -64,7 +64,11 @@ public class BoardgameController {
                 return Flowable.fromIterable(fetchedItems).concatWith(oneSecondDelayFlowable);
             }).subscribeOn(Schedulers.single());
 
-        return Flowable.merge(cachedFlow, uncachedFlow);
+        return Flowable.merge(cachedFlow, uncachedFlow).map(BoardgameController::addNewline);
+    }
+
+    private static String addNewline(PlayersCountDto item) {
+        return item.toJson() + "\n";
     }
 
     @Get(value = "/{ids}")
