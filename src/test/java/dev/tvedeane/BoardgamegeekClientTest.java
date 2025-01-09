@@ -45,6 +45,6 @@ class BoardgamegeekClientTest {
 
         assertThat(result).containsOnly(
                 new PlayersCountDto("1", List.of(2), List.of(1, 2, 3)),
-                new PlayersCountDto("2", List.of(2, 3, 4), List.of(1, 2, 3, 4, 5)));
+                new PlayersCountDto("2", List.of(2, 3, 4, 5), List.of(1, 2, 3, 4, 5)));
     }
 }
