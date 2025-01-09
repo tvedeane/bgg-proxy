@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 @Controller("boardgames")
 public class BoardgameController {
@@ -24,6 +25,7 @@ public class BoardgameController {
         .build();
     private final Flowable<PlayersCountDto> oneSecondDelayFlowable =
         Flowable.timer(1_000, TimeUnit.MILLISECONDS, Schedulers.single()).flatMap(tick -> Flowable.empty());
+    private final Pattern IDS_REGEX = Pattern.compile("^\\d+(,\\d+)*$");
 
     public BoardgameController(BoardgamegeekClient boardgamegeekClient) {
         this.boardgamegeekClient = boardgamegeekClient;
@@ -31,7 +33,10 @@ public class BoardgameController {
 
     @Get(value = "/stream/{ids}", produces = MediaType.APPLICATION_JSON_STREAM)
     public Publisher<String> playersCountsStream(String ids) {
-        // TODO use regex to check if `ids` has only digits and commas
+        if (!IDS_REGEX.matcher(ids).matches()) {
+            throw new InvalidIdsStringException();
+        }
+
         var separatedIds = Arrays.stream(ids.split(",")).toList();
         var cached = new ArrayList<PlayersCountDto>();
         var missingKeys = new ArrayList<String>();
