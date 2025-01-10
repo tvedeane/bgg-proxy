@@ -1,0 +1,375 @@
+{
+    "schema": {
+        "schemaVersion": 2,
+        "sequences": {
+            "com.tldraw.store": 4,
+            "com.tldraw.asset": 1,
+            "com.tldraw.camera": 1,
+            "com.tldraw.document": 2,
+            "com.tldraw.instance": 25,
+            "com.tldraw.instance_page_state": 5,
+            "com.tldraw.page": 1,
+            "com.tldraw.instance_presence": 6,
+            "com.tldraw.pointer": 1,
+            "com.tldraw.shape": 4,
+            "com.tldraw.asset.bookmark": 2,
+            "com.tldraw.asset.image": 5,
+            "com.tldraw.asset.video": 5,
+            "com.tldraw.shape.group": 0,
+            "com.tldraw.shape.text": 2,
+            "com.tldraw.shape.bookmark": 2,
+            "com.tldraw.shape.draw": 2,
+            "com.tldraw.shape.geo": 9,
+            "com.tldraw.shape.note": 8,
+            "com.tldraw.shape.line": 5,
+            "com.tldraw.shape.frame": 0,
+            "com.tldraw.shape.arrow": 5,
+            "com.tldraw.shape.highlight": 1,
+            "com.tldraw.shape.embed": 4,
+            "com.tldraw.shape.image": 4,
+            "com.tldraw.shape.video": 2,
+            "com.tldraw.binding.arrow": 0
+        }
+    },
+    "shapes": [
+        {
+            "x": 668,
+            "y": 282,
+            "rotation": 0,
+            "isLocked": false,
+            "opacity": 1,
+            "meta": {},
+            "id": "shape:fbJmqOh2hYvw0R5ZMwWiR",
+            "type": "geo",
+            "props": {
+                "w": 151,
+                "h": 82,
+                "geo": "oval",
+                "color": "black",
+                "labelColor": "black",
+                "fill": "none",
+                "dash": "draw",
+                "size": "s",
+                "font": "draw",
+                "text": "Boardgames owner",
+                "align": "middle",
+                "verticalAlign": "middle",
+                "growY": 0,
+                "url": "",
+                "scale": 1
+            },
+            "parentId": "page:page",
+            "index": "a1",
+            "typeName": "shape"
+        },
+        {
+            "x": 716.7346756005815,
+            "y": 241.36733780029067,
+            "rotation": 0,
+            "isLocked": false,
+            "opacity": 1,
+            "meta": {},
+            "id": "shape:LU_YDBUtmTC4-cA2RvjbV",
+            "type": "geo",
+            "props": {
+                "w": 56,
+                "h": 56,
+                "geo": "ellipse",
+                "color": "black",
+                "labelColor": "black",
+                "fill": "semi",
+                "dash": "draw",
+                "size": "m",
+                "font": "draw",
+                "text": "",
+                "align": "middle",
+                "verticalAlign": "middle",
+                "growY": 0,
+                "url": "",
+                "scale": 1
+            },
+            "parentId": "page:page",
+            "index": "a23Vc",
+            "typeName": "shape"
+        },
+        {
+            "x": 668.4697626680422,
+            "y": 483.65350812791945,
+            "rotation": 0,
+            "isLocked": false,
+            "opacity": 1,
+            "meta": {},
+            "id": "shape:cVXN7CDP_G_Z2lnpP6IS7",
+            "type": "geo",
+            "props": {
+                "w": 149,
+                "h": 95.3524398462003,
+                "geo": "rectangle",
+                "color": "black",
+                "labelColor": "black",
+                "fill": "semi",
+                "dash": "draw",
+                "size": "s",
+                "font": "draw",
+                "text": "Player counts app",
+                "align": "middle",
+                "verticalAlign": "middle",
+                "growY": 0,
+                "url": "",
+                "scale": 1
+            },
+            "parentId": "page:page",
+            "index": "a33Sa",
+            "typeName": "shape"
+        },
+        {
+            "x": 740.3748812405868,
+            "y": 363.2905922564862,
+            "rotation": 0,
+            "isLocked": false,
+            "opacity": 1,
+            "meta": {},
+            "id": "shape:u_9nlubgjllxqzbJ7VH5m",
+            "type": "arrow",
+            "props": {
+                "dash": "draw",
+                "size": "s",
+                "fill": "semi",
+                "color": "black",
+                "labelColor": "black",
+                "bend": 0,
+                "start": {
+                    "x": 52.36449343409049,
+                    "y": 0.3514312845172185
+                },
+                "end": {
+                    "x": -0.7815773757885154,
+                    "y": 78.15773757885279
+                },
+                "arrowheadStart": "none",
+                "arrowheadEnd": "arrow",
+                "text": "Uses",
+                "labelPosition": 0.5,
+                "font": "draw",
+                "scale": 1
+            },
+            "parentId": "page:page",
+            "index": "a47Ts",
+            "typeName": "shape"
+        },
+        {
+            "x": 996.134058359798,
+            "y": 485.6761272371278,
+            "rotation": 0,
+            "isLocked": false,
+            "opacity": 1,
+            "meta": {},
+            "id": "shape:V5bte-BS7ar_oSZKcQIi8",
+            "type": "geo",
+            "props": {
+                "w": 182,
+                "h": 95.3524398462003,
+                "geo": "rectangle",
+                "color": "grey",
+                "labelColor": "black",
+                "fill": "semi",
+                "dash": "draw",
+                "size": "s",
+                "font": "draw",
+                "text": "Boardgamegeek",
+                "align": "middle",
+                "verticalAlign": "middle",
+                "growY": 0,
+                "url": "",
+                "scale": 1
+            },
+            "parentId": "page:page",
+            "index": "a55qR",
+            "typeName": "shape"
+        },
+        {
+            "x": 773.1362604145978,
+            "y": 528.0072086998837,
+            "rotation": 0,
+            "isLocked": false,
+            "opacity": 1,
+            "meta": {},
+            "id": "shape:vsNO12_M992VvZkfcmTq1",
+            "type": "arrow",
+            "props": {
+                "dash": "draw",
+                "size": "s",
+                "fill": "semi",
+                "color": "black",
+                "labelColor": "black",
+                "bend": 0,
+                "start": {
+                    "x": 0,
+                    "y": 0
+                },
+                "end": {
+                    "x": 189.11488671098255,
+                    "y": -8.090476436833569
+                },
+                "arrowheadStart": "arrow",
+                "arrowheadEnd": "arrow",
+                "text": "XML API",
+                "labelPosition": 0.5,
+                "font": "draw",
+                "scale": 1
+            },
+            "parentId": "page:page",
+            "index": "a65gs",
+            "typeName": "shape"
+        },
+        {
+            "x": 740.3748812405868,
+            "y": 363.2905922564862,
+            "rotation": 0,
+            "isLocked": false,
+            "opacity": 1,
+            "meta": {},
+            "id": "shape:vQGxfNm88t4zsm5WYjsWi",
+            "type": "arrow",
+            "props": {
+                "dash": "draw",
+                "size": "s",
+                "fill": "semi",
+                "color": "black",
+                "labelColor": "black",
+                "bend": 0,
+                "start": {
+                    "x": 2.7322278654932006,
+                    "y": 0.7094077435137933
+                },
+                "end": {
+                    "x": 246.43752301878044,
+                    "y": 157.917634978475
+                },
+                "arrowheadStart": "none",
+                "arrowheadEnd": "arrow",
+                "text": "Manages collection",
+                "labelPosition": 0.5,
+                "font": "draw",
+                "scale": 1
+            },
+            "parentId": "page:page",
+            "index": "a71nn",
+            "typeName": "shape"
+        }
+    ],
+    "rootShapeIds": [
+        "shape:fbJmqOh2hYvw0R5ZMwWiR",
+        "shape:LU_YDBUtmTC4-cA2RvjbV",
+        "shape:cVXN7CDP_G_Z2lnpP6IS7",
+        "shape:u_9nlubgjllxqzbJ7VH5m",
+        "shape:V5bte-BS7ar_oSZKcQIi8",
+        "shape:vsNO12_M992VvZkfcmTq1",
+        "shape:vQGxfNm88t4zsm5WYjsWi"
+    ],
+    "bindings": [
+        {
+            "meta": {},
+            "id": "binding:v1y0VaQct9XpTxdpqD7jY",
+            "type": "arrow",
+            "fromId": "shape:u_9nlubgjllxqzbJ7VH5m",
+            "toId": "shape:fbJmqOh2hYvw0R5ZMwWiR",
+            "props": {
+                "isPrecise": false,
+                "isExact": false,
+                "normalizedAnchor": {
+                    "x": 0.6242242186683755,
+                    "y": 0.681097196829049
+                },
+                "terminal": "start"
+            },
+            "typeName": "binding"
+        },
+        {
+            "meta": {},
+            "id": "binding:kdnteKIYPGB3EBOWRk2Fy",
+            "type": "arrow",
+            "fromId": "shape:vQGxfNm88t4zsm5WYjsWi",
+            "toId": "shape:fbJmqOh2hYvw0R5ZMwWiR",
+            "props": {
+                "isPrecise": true,
+                "isExact": false,
+                "normalizedAnchor": {
+                    "x": 0.5,
+                    "y": 0.5
+                },
+                "terminal": "start"
+            },
+            "typeName": "binding"
+        },
+        {
+            "meta": {},
+            "id": "binding:q7qqudu9q3P42m8PWqzl_",
+            "type": "arrow",
+            "fromId": "shape:vsNO12_M992VvZkfcmTq1",
+            "toId": "shape:cVXN7CDP_G_Z2lnpP6IS7",
+            "props": {
+                "isPrecise": false,
+                "isExact": false,
+                "normalizedAnchor": {
+                    "x": 0.7024597164198362,
+                    "y": 0.4651553819021829
+                },
+                "terminal": "start"
+            },
+            "typeName": "binding"
+        },
+        {
+            "meta": {},
+            "id": "binding:wzRbS4fnVxb25BCalWUNK",
+            "type": "arrow",
+            "fromId": "shape:u_9nlubgjllxqzbJ7VH5m",
+            "toId": "shape:cVXN7CDP_G_Z2lnpP6IS7",
+            "props": {
+                "isPrecise": true,
+                "isExact": false,
+                "normalizedAnchor": {
+                    "x": 0.49307565989343344,
+                    "y": 0.024590163934426458
+                },
+                "terminal": "end"
+            },
+            "typeName": "binding"
+        },
+        {
+            "meta": {},
+            "id": "binding:mU0opyDOtaU45FQZbbyDB",
+            "type": "arrow",
+            "fromId": "shape:vsNO12_M992VvZkfcmTq1",
+            "toId": "shape:V5bte-BS7ar_oSZKcQIi8",
+            "props": {
+                "isPrecise": true,
+                "isExact": false,
+                "normalizedAnchor": {
+                    "x": 0.5,
+                    "y": 0.5
+                },
+                "terminal": "end"
+            },
+            "typeName": "binding"
+        },
+        {
+            "meta": {},
+            "id": "binding:pL881FBMY0A61rdSjYUz7",
+            "type": "arrow",
+            "fromId": "shape:vQGxfNm88t4zsm5WYjsWi",
+            "toId": "shape:V5bte-BS7ar_oSZKcQIi8",
+            "props": {
+                "isPrecise": false,
+                "isExact": false,
+                "normalizedAnchor": {
+                    "x": 0.31552075001893076,
+                    "y": 0.3408216023254263
+                },
+                "terminal": "end"
+            },
+            "typeName": "binding"
+        }
+    ],
+    "assets": []
+}
