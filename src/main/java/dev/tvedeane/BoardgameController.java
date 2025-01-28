@@ -4,8 +4,10 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import io.micronaut.http.MediaType;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.reactivestreams.Publisher;
@@ -31,6 +33,11 @@ public class BoardgameController {
         this.boardgamegeekClient = boardgamegeekClient;
     }
 
+    @Post(value = "/stream", produces = MediaType.APPLICATION_JSON_STREAM)
+    public Publisher<String> playersCountsStreamPost(@Body GamesIdsDto ids) {
+        return streamGames(ids.ids());
+    }
+
     @Get(value = "/stream/{ids}", produces = MediaType.APPLICATION_JSON_STREAM)
     public Publisher<String> playersCountsStream(String ids) {
         if (!IDS_REGEX.matcher(ids).matches()) {
@@ -38,6 +45,10 @@ public class BoardgameController {
         }
 
         var separatedIds = Arrays.stream(ids.split(",")).toList();
+        return streamGames(separatedIds);
+    }
+
+    private Publisher<String> streamGames(List<String> separatedIds) {
         var cached = new ArrayList<PlayersCountDto>();
         var missingKeys = new ArrayList<String>();
 
