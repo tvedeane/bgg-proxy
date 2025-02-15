@@ -32,9 +32,10 @@ public class BoardgamegeekClient {
         this.httpClient = httpClient;
     }
 
-    List<PlayersCountDto> fetchGame(List<String> ids) {
+    List<PlayersCountCacheEntry> fetchGame(List<Long> ids) {
+        var longIds = ids.stream().map(Object::toString).toList();
         var BGG_API_THING_URL = "https://boardgamegeek.com/xmlapi2/thing";
-        var uri = UriBuilder.of(BGG_API_THING_URL).queryParam("id", String.join(",", ids)).build();
+        var uri = UriBuilder.of(BGG_API_THING_URL).queryParam("id", String.join(",", longIds)).build();
         HttpRequest<?> req = HttpRequest.GET(uri)
                 .header(USER_AGENT, "Micronaut HTTP Client");
 
@@ -47,10 +48,12 @@ public class BoardgamegeekClient {
             LOG.error("Cannot parse XML: {}", e.getMessage());
             return List.of();
         }
-        return result.items().stream().map(i -> toPlayersCountDto(i.id(), i.pollSummary().result())).toList();
+        return result.items().stream()
+            .map(i -> toPlayersCountCacheEntry(i.id(), i.pollSummary().result()))
+            .toList();
     }
 
-    private static PlayersCountDto toPlayersCountDto(String id, List<PollResult> pollResults) {
+    private static PlayersCountCacheEntry toPlayersCountCacheEntry(String id, List<PollResult> pollResults) {
         final var bestWith = new ArrayList<Integer>();
         final var recommendedWith = new ArrayList<Integer>();
         pollResults.forEach(p -> {
@@ -64,7 +67,7 @@ public class BoardgamegeekClient {
                     break;
             }
         });
-        return new PlayersCountDto(id, bestWith, recommendedWith);
+        return new PlayersCountCacheEntry(id, bestWith, recommendedWith);
     }
 
     private  static List<Integer> extractPlayerNumbers(String input) {

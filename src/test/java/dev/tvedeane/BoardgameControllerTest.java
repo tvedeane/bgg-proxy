@@ -15,20 +15,20 @@ class BoardgameControllerTest {
     void streamUsesCacheCallingClientOnce() {
         var mockClient = mock(BoardgamegeekClient.class);
         var controller = new BoardgameController(mockClient);
-        var e1 = new PlayersCountDto("4", List.of(2), List.of(2));
-        var e2 = new PlayersCountDto("10", List.of(2), List.of(2));
-        when(mockClient.fetchGame(List.of("4", "10"))).thenReturn(List.of(e1, e2));
+        var e1 = new PlayersCountCacheEntry("4", List.of(2), List.of(2, 3));
+        var e2 = new PlayersCountCacheEntry("10", List.of(2), List.of(2, 3, 4));
+        when(mockClient.fetchGame(List.of(4L, 10L))).thenReturn(List.of(e1, e2));
 
         var result1 = getBlockingFrom(controller.playersCountsStream("4,10"));
         var result2 = getBlockingFrom(controller.playersCountsStream("4,10"));
 
         String[] results = {
-            "{\"id\":\"4\",\"bestWith\":[2],\"recommendedWith\":[2]}\n",
-            "{\"id\":\"10\",\"bestWith\":[2],\"recommendedWith\":[2]}\n"
+            "{\"id\":\"4\",\"bestWith\":[2],\"recommendedWith\":[2,3]}\n",
+            "{\"id\":\"10\",\"bestWith\":[2],\"recommendedWith\":[2,3,4]}\n"
         };
         assertThat(result1).containsOnly(results);
         assertThat(result2).containsOnly(results);
-        verify(mockClient, times(1)).fetchGame(List.of("4", "10"));
+        verify(mockClient, times(1)).fetchGame(List.of(4L, 10L));
     }
 
     private static List<String> getBlockingFrom(Publisher<String> publisher) {
@@ -45,9 +45,9 @@ class BoardgameControllerTest {
         getBlockingFrom(controller.playersCountsStream("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22"));
 
         verify(mockClient).fetchGame(List.of(
-            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-            "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"));
-        verify(mockClient).fetchGame(List.of("21", "22"));
+            1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L,
+            11L, 12L, 13L, 14L, 15L, 16L, 17L, 18L, 19L, 20L));
+        verify(mockClient).fetchGame(List.of(21L, 22L));
     }
 
     @Test

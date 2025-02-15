@@ -21,11 +21,11 @@ import java.util.regex.Pattern;
 @Controller("boardgames")
 public class BoardgameController {
     private final BoardgamegeekClient boardgamegeekClient;
-    private final Cache<String, PlayersCountDto> cache = CacheBuilder.newBuilder()
+    private final Cache<Long, PlayersCountCacheEntry> cache = CacheBuilder.newBuilder()
         .maximumSize(10_000)
 //            .weigher() // TODO use weight based on the game position
         .build();
-    private final Flowable<PlayersCountDto> oneSecondDelayFlowable =
+    private final Flowable<PlayersCountCacheEntry> oneSecondDelayFlowable =
         Flowable.timer(1_000, TimeUnit.MILLISECONDS, Schedulers.single()).flatMap(tick -> Flowable.empty());
     private final Pattern IDS_REGEX = Pattern.compile("^\\d+(,\\d+)*$");
 
@@ -44,15 +44,15 @@ public class BoardgameController {
             throw new InvalidIdsStringException();
         }
 
-        var separatedIds = Arrays.stream(ids.split(",")).toList();
+        var separatedIds = Arrays.stream(ids.split(",")).map(Long::parseLong).toList();
         return streamGames(separatedIds);
     }
 
-    private Publisher<String> streamGames(List<String> separatedIds) {
-        var cached = new ArrayList<PlayersCountDto>();
-        var missingKeys = new ArrayList<String>();
+    private Publisher<String> streamGames(List<Long> separatedIds) {
+        var cached = new ArrayList<PlayersCountCacheEntry>();
+        var missingKeys = new ArrayList<Long>();
 
-        for (String key : separatedIds) {
+        for (Long key : separatedIds) {
             var value = cache.getIfPresent(key);
             if (value != null) {
                 cached.add(value);
@@ -61,15 +61,15 @@ public class BoardgameController {
             }
         }
 
-        Flowable<PlayersCountDto> cachedFlow = Flowable.fromIterable(cached);
+        Flowable<PlayersCountCacheEntry> cachedFlow = Flowable.fromIterable(cached);
         if (missingKeys.isEmpty()) {
             return cachedFlow.map(BoardgameController::addNewline);
         }
 
-        List<List<String>> partitions = Lists.partition(missingKeys, BoardgamegeekClient.MAX_READING_THINGS);
-        Flowable<PlayersCountDto> uncachedFlow = Flowable.fromIterable(partitions)
+        List<List<Long>> partitions = Lists.partition(missingKeys, BoardgamegeekClient.MAX_READING_THINGS);
+        Flowable<PlayersCountCacheEntry> uncachedFlow = Flowable.fromIterable(partitions)
             .concatMap(partition -> {
-                List<PlayersCountDto> fetchedItems = boardgamegeekClient.fetchGame(partition);
+                List<PlayersCountCacheEntry> fetchedItems = boardgamegeekClient.fetchGame(partition);
 
                 for (var entry : fetchedItems) {
                     cache.put(entry.id(), entry);
@@ -81,7 +81,7 @@ public class BoardgameController {
         return Flowable.merge(cachedFlow, uncachedFlow).map(BoardgameController::addNewline);
     }
 
-    private static String addNewline(PlayersCountDto item) {
+    private static String addNewline(PlayersCountCacheEntry item) {
         return item.toJson() + "\n";
     }
 }

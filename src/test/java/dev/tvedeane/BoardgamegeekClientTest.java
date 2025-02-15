@@ -41,10 +41,10 @@ class BoardgamegeekClientTest {
         when(blockingClient.exchange(ArgumentMatchers.<HttpRequest<?>>any(), ArgumentMatchers.<Class<byte[]>>any()))
                 .thenReturn(response);
 
-        var result = client.fetchGame(List.of("1", "2"));
+        var result = client.fetchGame(List.of(1L, 2L));
 
         assertThat(result).containsOnly(
-                new PlayersCountDto("1", List.of(2), List.of(1, 2, 3)),
-                new PlayersCountDto("2", List.of(2, 3, 4), List.of(1, 2, 3, 4, 5)));
+                new PlayersCountCacheEntry("1", List.of(2), List.of(1, 2, 3)),
+                new PlayersCountCacheEntry("2", List.of(2, 3, 4), List.of(1, 2, 3, 4, 5)));
     }
 }
