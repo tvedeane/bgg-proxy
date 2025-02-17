@@ -1,5 +1,6 @@
 package dev.tvedeane;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
@@ -21,6 +22,7 @@ import java.util.regex.Pattern;
 
 @Controller("boardgames")
 public class BoardgameController {
+    public static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private final BoardgamegeekClient boardgamegeekClient;
     private final Cache<Long, PlayersCountCacheEntry> cache = CacheBuilder.newBuilder()
         .maximumSize(10_000)

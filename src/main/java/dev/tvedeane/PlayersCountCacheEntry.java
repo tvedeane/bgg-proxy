@@ -1,6 +1,5 @@
 package dev.tvedeane;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,12 +37,11 @@ public record PlayersCountCacheEntry(
 
     public String toJson() {
         try {
-            var objectMapper = new ObjectMapper();
             return "{\"id\":\"%s\",\"bestWith\":%s,\"recommendedWith\":%s}"
                 .formatted(
                     this.id,
-                    objectMapper.writeValueAsString(toList(this.bestWith)),
-                    objectMapper.writeValueAsString(toList(this.recommendedWith))
+                    BoardgameController.OBJECT_MAPPER.writeValueAsString(toList(this.bestWith)),
+                    BoardgameController.OBJECT_MAPPER.writeValueAsString(toList(this.recommendedWith))
                 );
         } catch (Exception e) {
             LOG.error("Cannot serialize entry: {}", e.getMessage());
