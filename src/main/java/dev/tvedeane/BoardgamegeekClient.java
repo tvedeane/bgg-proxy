@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -37,7 +38,7 @@ public class BoardgamegeekClient {
         var BGG_API_THING_URL = "https://boardgamegeek.com/xmlapi2/thing";
         var uri = UriBuilder.of(BGG_API_THING_URL).queryParam("id", String.join(",", longIds)).build();
         HttpRequest<?> req = HttpRequest.GET(uri)
-                .header(USER_AGENT, "Micronaut HTTP Client");
+            .header(USER_AGENT, "Micronaut HTTP Client");
 
         var response = httpClient.toBlocking().exchange(req, byte[].class);
         var responseBody = new String(response.body(), StandardCharsets.UTF_8);
@@ -49,11 +50,12 @@ public class BoardgamegeekClient {
             return List.of();
         }
         return result.items().stream()
-            .map(i -> toPlayersCountCacheEntry(i.id(), i.pollSummary().result()))
+            .map(i -> toPlayersCountCacheEntry(i.id(), i.pollSummary().result(), i.yearPublished().value()))
             .toList();
     }
 
-    private static PlayersCountCacheEntry toPlayersCountCacheEntry(String id, List<PollResult> pollResults) {
+    private static PlayersCountCacheEntry toPlayersCountCacheEntry(
+        String id, List<PollResult> pollResults, String yearPublished) {
         final var bestWith = new ArrayList<Integer>();
         final var recommendedWith = new ArrayList<Integer>();
         pollResults.forEach(p -> {
@@ -67,10 +69,22 @@ public class BoardgamegeekClient {
                     break;
             }
         });
-        return new PlayersCountCacheEntry(id, bestWith, recommendedWith);
+        var expirationInDays = calculateExpiration(yearPublished);
+        return new PlayersCountCacheEntry(id, bestWith, recommendedWith, System.currentTimeMillis(), expirationInDays);
     }
 
-    private  static List<Integer> extractPlayerNumbers(String input) {
+    private static int calculateExpiration(String yearPublished) {
+        var yearRegex = Pattern.compile("^\\d{1,4}$");
+        int year;
+        if (!yearRegex.matcher(yearPublished).matches()) {
+            year = 2000; // some sensible fallback
+        } else {
+            year = Integer.parseInt(yearPublished);
+        }
+        return 30 + (Year.now().getValue() - year) * 10;
+    }
+
+    private static List<Integer> extractPlayerNumbers(String input) {
         var result = new ArrayList<Integer>();
 
         var individualNumbersOrRanges = Pattern.compile("(\\d+)(?:[–-](\\d+))?");

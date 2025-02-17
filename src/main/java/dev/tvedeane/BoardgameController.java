@@ -12,6 +12,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.reactivestreams.Publisher;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +24,7 @@ public class BoardgameController {
     private final BoardgamegeekClient boardgamegeekClient;
     private final Cache<Long, PlayersCountCacheEntry> cache = CacheBuilder.newBuilder()
         .maximumSize(10_000)
-//            .weigher() // TODO use weight based on the game position
+        .expireAfterWrite(30, TimeUnit.DAYS)
         .build();
     private final Flowable<PlayersCountCacheEntry> oneSecondDelayFlowable =
         Flowable.timer(1_000, TimeUnit.MILLISECONDS, Schedulers.single()).flatMap(tick -> Flowable.empty());
@@ -55,7 +56,15 @@ public class BoardgameController {
         for (Long key : separatedIds) {
             var value = cache.getIfPresent(key);
             if (value != null) {
-                cached.add(value);
+                var isExpired =
+                    System.currentTimeMillis() - value.creationTime() >
+                    Duration.ofDays(value.expirationInDays()).toMillis();
+                if (isExpired) {
+                    cache.invalidate(key);
+                    missingKeys.add(key);
+                } else {
+                    cached.add(value);
+                }
             } else {
                 missingKeys.add(key);
             }

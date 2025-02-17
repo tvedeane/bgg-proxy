@@ -8,14 +8,17 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-public record PlayersCountCacheEntry(Long id, BitSet bestWith, BitSet recommendedWith) {
+public record PlayersCountCacheEntry(
+    long id, BitSet bestWith, BitSet recommendedWith, long creationTime, int expirationInDays) {
+
     private static final Logger LOG = LoggerFactory.getLogger(PlayersCountCacheEntry.class);
 
-    PlayersCountCacheEntry(String id, List<Integer> bestWith, List<Integer> recommendedWith) {
-        this(Long.parseLong(id), toBitSet(bestWith), toBitSet(recommendedWith));
+    PlayersCountCacheEntry(
+        String id, List<Integer> bestWith, List<Integer> recommendedWith, long creationTime, int expirationInDays) {
+        this(Long.parseLong(id), toBitSet(bestWith), toBitSet(recommendedWith), creationTime, expirationInDays);
     }
 
-    private static BitSet toBitSet(List<Integer> integers) {
+    static BitSet toBitSet(List<Integer> integers) {
         var bitSet = new BitSet();
         for (Integer i : integers) {
             bitSet.set(i);

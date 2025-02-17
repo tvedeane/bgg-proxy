@@ -15,8 +15,8 @@ class BoardgameControllerTest {
     void streamUsesCacheCallingClientOnce() {
         var mockClient = mock(BoardgamegeekClient.class);
         var controller = new BoardgameController(mockClient);
-        var e1 = new PlayersCountCacheEntry("4", List.of(2), List.of(2, 3));
-        var e2 = new PlayersCountCacheEntry("10", List.of(2), List.of(2, 3, 4));
+        var e1 = new PlayersCountCacheEntry("4", List.of(2), List.of(2, 3), System.currentTimeMillis(), 30);
+        var e2 = new PlayersCountCacheEntry("10", List.of(2), List.of(2, 3, 4), System.currentTimeMillis(), 30);
         when(mockClient.fetchGame(List.of(4L, 10L))).thenReturn(List.of(e1, e2));
 
         var result1 = getBlockingFrom(controller.playersCountsStream("4,10"));
@@ -57,5 +57,18 @@ class BoardgameControllerTest {
 
         assertThatThrownBy(() -> getBlockingFrom(controller.playersCountsStream("1,a")))
             .isInstanceOf(InvalidIdsStringException.class);
+    }
+
+    @Test
+    void callsClientWhenEntryExpired() {
+        var mockClient = mock(BoardgamegeekClient.class);
+        var controller = new BoardgameController(mockClient);
+        var e1 = new PlayersCountCacheEntry("9", List.of(2), List.of(2, 3), 1, 30);
+        when(mockClient.fetchGame(List.of(9L))).thenReturn(List.of(e1));
+
+        getBlockingFrom(controller.playersCountsStream("9"));
+        getBlockingFrom(controller.playersCountsStream("9"));
+
+        verify(mockClient, times(2)).fetchGame(List.of(9L));
     }
 }

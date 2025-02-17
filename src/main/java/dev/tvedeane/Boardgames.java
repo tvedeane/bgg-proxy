@@ -12,13 +12,16 @@ import java.util.List;
 @JacksonXmlRootElement(localName = "items")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record Boardgames(
-        @JacksonXmlElementWrapper(useWrapping = false)
-        @JacksonXmlProperty(localName = "item")
-        List<Item> items) {
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "item")
+    List<Item> items) {
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-record Item(String id, @JacksonXmlProperty(localName = "poll-summary") PollSummary pollSummary) {
+record Item(
+    String id,
+    @JacksonXmlProperty(localName = "poll-summary") PollSummary pollSummary,
+    @JacksonXmlProperty(localName = "yearpublished") YearPublished yearPublished) {
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -26,4 +29,7 @@ record PollSummary(@JacksonXmlElementWrapper(useWrapping = false) List<PollResul
 }
 
 record PollResult(String name, String value) {
+}
+
+record YearPublished(String value) {
 }
